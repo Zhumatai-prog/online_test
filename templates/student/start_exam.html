@@ -1,0 +1,284 @@
+{% extends 'student/studentbase.html' %}
+{% load static %}
+{% load my_filters %}
+{% block content %}
+
+<style media="screen">
+  .form {
+      margin-left: 20px;
+  }
+
+  .btn input[type="submit"] {
+      border: 0;
+      background: none;
+      display: block;
+      margin: 20px auto;
+      text-align: center;
+      border: 2px solid #2ecc71;
+      padding: 14px 40px;
+      outline: none;
+      color: white;
+      border-radius: 24px;
+      transition: 0.25s;
+      cursor: pointer
+  }
+
+  .btn input[type="submit"]:hover {
+      background: #2ecc71
+  }
+</style>
+
+<div class="jumbotron my-4">
+    <form class="form" autocomplete="off" onsubmit="return saveAns()"  action="/student/calculate-marks" method="POST">
+    {% csrf_token %}
+    <h1 style="text-align: center;">{{ course.course_name }}</h1>
+    {% for q in questions%}
+        <h3 class="text-info">{{ forloop.counter }}. {{q.question}}</h3>
+
+        <input type="hidden" name="csrfmiddlewaretoken" value="C24rUotmdHawVQJL3KrqiWxvti8UffOFYUc8TRbZtLt36AVLdP3jbkzUVe3beRAa">
+        {% if q.answer|length > 1 %}
+                {% if q.option1|length %}
+                    <div class="form-check mx-4">
+                        <input class="form-check-input" type="checkbox" name="{{ forloop.counter }}" id="{{q.option1}}" value="Option1">
+                        <label class="form-check-label" for="option1">
+                            {{q.option1}}
+                        </label>
+                    </div>
+                {% endif %}
+
+                {% if q.option2|length %}
+                    <div class="form-check mx-4">
+                        <input class="form-check-input" type="checkbox" name="{{ forloop.counter }}" id="{{q.option2}}" value="Option2">
+                        <label class="form-check-label" for="option2">
+                            {{q.option2}}
+                        </label>
+                    </div>
+                {% endif %}
+
+                {% if q.option3|length %}
+                    <div class="form-check mx-4">
+                        <input class="form-check-input" type="checkbox" name="{{ forloop.counter }}" id="{{q.option3}}" value="Option3">
+                        <label class="form-check-label" for="option3">
+                            {{q.option3}}
+                        </label>
+                    </div>
+                {% endif %}
+
+                {% if q.option4|length %}
+                    <div class="form-check mx-4">
+                        <input class="form-check-input" type="checkbox" name="{{ forloop.counter }}" id="{{q.option4}}" value="Option4">
+                        <label class="form-check-label" for="option4">
+                            {{q.option4}}
+                        </label>
+                    </div>
+                {% endif %}
+
+                {% if q.option5|length %}
+                    <div class="form-check mx-4">]
+                        <input class="form-check-input" type="checkbox" name="{{ forloop.counter }}" id="{{q.option5}}" value="Option5">
+                        <label class="form-check-label" for="option5">
+                            {{q.option5}}
+                        </label>
+                    </div>
+                {% endif %}
+
+                {% if q.picture1|length %}
+                    <div class="form-check mx-4">
+                        <input class="form-check-input" type="checkbox" name="{{ forloop.counter }}" id="{{q.picture1}}" value="Picture1">
+                        <label class="form-check-label" for="picture1">
+                            <img src="/static/{{q.picture1}}" alt="">
+                        </label>
+                    </div>
+                {% endif %}
+
+                {% if q.picture2|length %}
+                    <div class="form-check mx-4">
+                        <input class="form-check-input" type="checkbox" name="{{ forloop.counter }}" id="{{q.picture2}}" value="Picture2">
+                        <label class="form-check-label" for="picture2">
+                            <img src="/static/{{q.picture2.url}}" alt="">
+                        </label>
+                    </div>
+                {% endif %}
+
+                {% if q.picture3|length %}
+                    <div class="form-check mx-4">
+                        <input class="form-check-input" type="checkbox" name="{{ forloop.counter }}" id="{{q.picture3}}" value="Picture3">
+                        <label class="form-check-label" for="picture3">
+                            <img src="/static/{{q.picture3.url}}" alt="">
+                        </label>
+                    </div>
+                {% endif %}
+
+                {% if q.picture4|length %}
+                    <div class="form-check mx-4">
+                        <input class="form-check-input" type="checkbox" name="{{ forloop.counter }}" id="{{q.picture4}}" value="Picture4">
+                        <label class="form-check-label" for="picture4">
+                            <img src="/static/{{q.picture4.url}}" alt="">
+                        </label>
+                    </div>
+                {% endif %}
+
+                {% if q.picture5|length %}
+                    <div class="form-check mx-4">
+                        <input class="form-check-input" type="checkbox" name="{{ forloop.counter }}" id="{{q.picture5}}" value="Picture5">
+                        <label class="form-check-label" for="picture5">
+                            <img src="/static/{{q.picture5.url}}" alt="">
+                        </label>
+                    </div>
+                {% endif %}
+        {% endif %}
+
+        {% if q.option1|length %}
+            <div class="form-check mx-4">
+                    <input class="form-check-input" type="radio" name="{{ forloop.counter }}" id="{{q.option1}}" value="Option1">
+
+                <label class="form-check-label" for="option1">
+                    {{q.option1}}
+                </label>
+            </div>
+        {% endif %}
+
+        {% if q.option2|length %}
+            <div class="form-check mx-4">
+                    <input class="form-check-input" type="radio" name="{{ forloop.counter }}" id="{{q.option2}}" value="Option2">
+
+                <label class="form-check-label" for="option2">
+                    {{q.option2}}
+                </label>
+            </div>
+        {% endif %}
+
+        {% if q.option3|length %}
+            <div class="form-check mx-4">
+                    <input class="form-check-input" type="radio" name="{{ forloop.counter }}" id="{{q.option3}}" value="Option3">
+
+                <label class="form-check-label" for="option3">
+                    {{q.option3}}
+                </label>
+            </div>
+        {% endif %}
+
+        {% if q.option4|length %}
+            <div class="form-check mx-4">
+                    <input class="form-check-input" type="radio" name="{{ forloop.counter }}" id="{{q.option4}}" value="Option4">
+
+                <label class="form-check-label" for="option4">
+                    {{q.option4}}
+                </label>
+            </div>
+        {% endif %}
+
+        {% if q.option5|length %}
+            <div class="form-check mx-4">
+                    <input class="form-check-input" type="radio" name="{{ forloop.counter }}" id="{{q.option5}}" value="Option5">
+
+                <label class="form-check-label" for="option5">
+                    {{q.option5}}
+                </label>
+            </div>
+        {% endif %}
+
+        {% if q.picture1|length %}
+            <div class="form-check mx-4">
+                    <input class="form-check-input" type="radio" name="{{ forloop.counter }}" id="{{q.picture1}}" value="Picture1">
+
+                <label class="form-check-label" for="picture1">
+                    <img src="/static/{{q.picture1}}" alt="">
+                </label>
+            </div>
+        {% endif %}
+
+        {% if q.picture2|length %}
+            <div class="form-check mx-4">
+                    <input class="form-check-input" type="radio" name="{{ forloop.counter }}" id="{{q.picture2}}" value="Picture2">
+
+                <label class="form-check-label" for="picture2">
+                    <img src="/static/{{q.picture2.url}}" alt="">
+                </label>
+            </div>
+        {% endif %}
+
+        {% if q.picture3|length %}
+            <div class="form-check mx-4">
+                    <input class="form-check-input" type="radio" name="{{ forloop.counter }}" id="{{q.picture3}}" value="Picture3">
+
+                <label class="form-check-label" for="picture3">
+                    <img src="/static/{{q.picture3.url}}" alt="">
+                </label>
+            </div>
+        {% endif %}
+
+        {% if q.picture4|length %}
+            <div class="form-check mx-4">
+                <input class="form-check-input" type="radio" name="{{ forloop.counter }}" id="{{q.picture4}}" value="Picture4">
+                <label class="form-check-label" for="picture4">
+                    <img src="/static/{{q.picture4.url}}" alt="">
+                </label>
+            </div>
+        {% endif %}
+
+        {% if q.picture5|length %}
+            <div class="form-check mx-4">
+                <input class="form-check-input" type="radio" name="{{ forloop.counter }}" id="{{q.picture5}}" value="Picture5">
+                <label class="form-check-label" for="picture5">
+                    <img src="/static/{{q.picture5.url}}" alt="">
+                </label>
+            </div>
+        {% endif %}
+
+
+
+
+        {% if q.entry_answer|length %}
+
+            {% if q.entry_answer.isnumeric %}
+                <div class="form-check mx-4">
+                    <input type="number" name="{{ forloop.counter }}" class="form-check-input" id="{{q.entry_answer}}">
+                    <label class="form-check-label" for="entry_answer">
+                    </label>
+                </div>
+            {% else %}
+                <div class="form-check mx-4">
+                    <input type="text" name="{{ forloop.counter }}" class="form-check-input" id="{{q.entry_answer}}">
+                    <label class="form-check-label" for="entry_answer">
+                    </label>
+                </div>
+            {% endif %}
+
+        {% endif %}
+
+        <br>
+        <br>
+    {% endfor %}
+        <br>
+        <input class="btn btn-info btn-lg"   type="submit" value="Отправить">
+        <br>
+        <br>
+    </form>
+  </div>
+
+<script>
+    function saveAns(){
+
+        var ele = document.getElementsByTagName('input');
+        for(i = 0; i < ele.length; i++) {
+            if(ele[i].type="radio" || ele[i].type="number" || ele[i].type="text" || ele[i].type="checkbox") {
+                if(ele[i].checked){
+                  setCookie(ele[i].name,ele[i].value,3)
+                }
+            }
+        }
+
+    }
+
+    function setCookie(cname, cvalue, exdays) {
+  var d = new Date();
+  d.setTime(d.getTime() + (exdays*24*60*60*1000));
+  var expires = "expires="+ d.toUTCString();
+  document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+}
+
+</script>
+
+<br><br><br><br><br><br>
+{% endblock content %}

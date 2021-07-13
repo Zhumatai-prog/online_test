@@ -1,0 +1,63 @@
+{% extends 'quiz/adminbase.html' %}
+{% block content %}
+{%load static%}
+
+<head>
+  <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+  <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+  <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+
+  <style media="screen">
+    a:link {
+      text-decoration: none;
+    }
+
+    h6 {
+      text-align: center;
+    }
+
+    .row {
+      margin: 100px;
+    }
+  </style>
+</head>
+<br><br>
+<div class="container">
+  <div class="panel panel-primary">
+    <div class="panel-heading">
+      <h6 class="panel-title">Сотрудники</h6>
+    </div>
+    <table class="table table-hover" id="dev-table">
+      <thead>
+        <tr>
+            <th>ID       </th>
+            <th>ФИО      </th>
+            <th>Логин    </th>
+            <th>Номер    </th>
+            <th>Почта    </th>
+            <th>Должность</th>
+            <th>Отдел    </th>
+            <th>Изменить </th>
+            <th>Удалить  </th>
+        </tr>
+      </thead>
+      {% for t in students %}
+      <tr>
+          <td>{{ t.id }}</td>
+          <td>{{ t.get_name      }}</td>
+          <td>{{ t.user.username }}</td>
+          <td>{{ t.mobile        }}</td>
+          <td>{{ t.email         }}</td>
+          <td>{{ t.position      }}</td>
+          <td>{{ t.dept          }}</td>
+
+        <td><a class="btn btn-primary btn-xs" href="{% url 'update-student' t.id  %}"><span class="glyphicon glyphicon-edit"></span></a></td>
+        <td><a class="btn btn-danger btn-xs" href="{% url 'delete-student' t.id  %}"><span class="glyphicon glyphicon-trash"></span></a></td>
+      </tr>
+      {% endfor %}
+    </table>
+  </div>
+</div>
+
+<br><br><br><br><br><br>
+{% endblock content %}
