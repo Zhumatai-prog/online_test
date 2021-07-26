@@ -43,9 +43,7 @@ INSTALLED_APPS = [
     'teacher',
     'student',
     'widget_tweaks',
-    #'templatetags',
-    #'my_filters',
-    #'django-filters',
+    'import_export',
 
 ]
 
@@ -91,7 +89,7 @@ DATABASES = {
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
 
         # DB POSTGRESQL
-        
+
         #'ENGINE': 'django.db.backends.postgresql',
         #'NAME': 'test2.db',
         #'USER': 'postgres',

@@ -178,7 +178,8 @@ def admin_add_course_view(request):
 @login_required(login_url='adminlogin')
 def admin_view_course_view(request):
     courses = Course.objects.all()
-    return render(request,'quiz/admin_view_course.html',{'courses':courses})
+    questions = Question.objects.all()
+    return render(request,'quiz/admin_view_course.html',{'courses':courses, 'questions': questions})
 
 @login_required(login_url='adminlogin')
 def delete_course_view(request,pk):

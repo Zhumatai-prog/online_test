@@ -14,10 +14,18 @@ class Course(models.Model):
         verbose_name = "Тесты"
         verbose_name_plural = "Тесты"
 
+   def get_q_c(self):
+       counts = 0
+       for a in Question.objects.all():
+           if a.course.id == self.id:
+               counts = counts + 1
+       return counts
+
    def __str__(self):
         return self.course_name
 
 class Question(models.Model):
+    id = models.AutoField(primary_key=True)
     course = models.ForeignKey(Course, on_delete=models.CASCADE, default=False)
     question = models.CharField(max_length=600)
 
@@ -55,9 +63,18 @@ class Question(models.Model):
                                  max_choices=4,
                                  max_length=200, null=False, default=False)
 
+
     class Meta:
         verbose_name = "Вопросы"
         verbose_name_plural = "Вопросы"
+    #    model = Question
+    #    import_id_fields = ('id',)
+    #    exclude = ('id',)
+    #    skip_unchanged = True
+    #    fields = ('course', 'question','option1', 'option2',
+    #              'option3', 'option4', 'option5', 'picture1',
+    #              'picture2', 'picture3', 'picture4', 'picture5' ,
+    #              'entry_answer', 'answer', )
 
     def __str__(self):
         return f'{self.course} ||  {self.question}'
